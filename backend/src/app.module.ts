@@ -15,14 +15,13 @@ import { FilmSchema } from './schemas/films.schema';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '../.env',
       isGlobal: true,
       cache: true,
     }),
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'public'),
     }),
-    MongooseModule.forRoot(process.env.DATABASE_URL),
+    MongooseModule.forRoot(configProvider.useValue.database.url),
     MongooseModule.forFeature([{ name: 'Film', schema: FilmSchema }]),
   ],
   controllers: [FilmsController, OrderController],
