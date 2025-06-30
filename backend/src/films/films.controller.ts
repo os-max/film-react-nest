@@ -1,8 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { FilmsService } from './films.service';
-import { plainToInstance } from 'class-transformer';
-import { getScheduleDTO } from './dto/schedule.dto';
-import { getFilmDTO } from './dto/films.dto';
 
 @Controller('films')
 export class FilmsController {

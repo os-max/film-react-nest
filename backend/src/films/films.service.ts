@@ -1,5 +1,8 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { FilmsRepository } from 'src/repository/films.repository';
+import { getFilmDTO } from './dto/films.dto';
+import { getScheduleDTO } from './dto/schedule.dto';
 
 @Injectable()
 export class FilmsService {
@@ -10,7 +13,7 @@ export class FilmsService {
 
     const responseObj = {
       total: films.length,
-      items: films,
+      items: plainToInstance(getFilmDTO, films),
     };
 
     return responseObj;
@@ -20,11 +23,11 @@ export class FilmsService {
     const { schedule } = await this.filmsRepository.findScheduleById(id);
 
     if (!schedule) {
-      throw new HttpException('No film with this id', 404);
+      throw new NotFoundException('No film with this id');
     }
     return {
       total: schedule.length,
-      items: schedule,
+      items: plainToInstance(getScheduleDTO, schedule),
     };
   }
 }

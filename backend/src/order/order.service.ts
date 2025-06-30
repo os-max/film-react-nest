@@ -26,16 +26,14 @@ export class OrderService {
         throw new BadRequestException('Wrong data for seat number');
       }
 
-      const seatPlacement = `${ticket.row}:${ticket.seat}`;
-
-      if (session.taken.includes(seatPlacement)) {
+      if (session.taken.includes(ticket.seatPlacement)) {
         throw new ConflictException('Seat taken');
       }
 
       await this.filmsRepository.reserveSeats(
         ticket.film,
         ticket.session,
-        seatPlacement,
+        ticket.seatPlacement,
       );
     }
 

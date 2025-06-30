@@ -1,5 +1,6 @@
-import { Body, Controller, ParseArrayPipe, Post } from '@nestjs/common';
-import { TicketDTO, createOrderDTO } from './dto/order.dto';
+import { Body, Controller, Post } from '@nestjs/common';
+/* eslint-disable-next-line */
+import { createOrderDTO } from './dto/order.dto';
 import { OrderService } from './order.service';
 
 @Controller('order')

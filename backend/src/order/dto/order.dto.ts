@@ -1,5 +1,4 @@
-//TODO реализовать DTO для /orders
-
+import { Type } from 'class-transformer';
 import { IsArray, IsDefined, IsNumber, IsString, Min } from 'class-validator';
 
 export class TicketDTO {
@@ -20,8 +19,6 @@ export class TicketDTO {
   price: number;
 
   public get seatPlacement() {
-    console.log(this.row);
-
     return `${this.row}:${this.seat}`;
   }
 }
@@ -32,5 +29,6 @@ export class createOrderDTO {
   @IsString()
   phone: string;
   @IsArray()
+  @Type(() => TicketDTO)
   tickets: TicketDTO[];
 }
