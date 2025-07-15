@@ -13,9 +13,7 @@ export class OrderService {
 
   async createOrder(order: createOrderDTO) {
     for (const ticket of order.tickets) {
-      const schedule = await this.filmsRepository.findScheduleById(
-        ticket.film,
-      );
+      const schedule = await this.filmsRepository.findScheduleById(ticket.film);
 
       const session = schedule.find((session) => session.id === ticket.session);
 

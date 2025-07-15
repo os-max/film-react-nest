@@ -12,14 +12,16 @@ export class FilmsMongoRepository {
   }
 
   findAllNoSchedule() {
-    return this.Film.find({}, { _id: 0, schedule: 0 }).lean().exec()
+    return this.Film.find({}, { _id: 0, schedule: 0 }).lean().exec();
   }
 
   async findScheduleById(id: string) {
-    const schedule = await this.Film.findOne({ id }).select('schedule').lean().exec();
+    const schedule = await this.Film.findOne({ id })
+      .select('schedule')
+      .lean()
+      .exec();
 
-    if (schedule)
-      return schedule.schedule
+    if (schedule) return schedule.schedule;
   }
 
   async reserveSeats(filmId: string, sessionId: string, seat: string) {

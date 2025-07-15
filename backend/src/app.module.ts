@@ -18,14 +18,11 @@ import { Schedule } from './films/entities/schedule.entity';
 
 @Module({})
 export class AppModule {
-
   static forRoot(): DynamicModule {
-
     let databaseProvider, databaseModules;
 
     const databaseParams = configProvider.useValue.database;
     if (configProvider.useValue.database.driver === 'postgres') {
-
       databaseModules = [
         TypeOrmModule.forRoot({
           type: 'postgres',
@@ -35,30 +32,31 @@ export class AppModule {
           password: databaseParams.password,
           database: databaseParams.name,
           entities: [Film, Schedule],
-          migrations: [path.join(__dirname, '/src/database/migrations/**/*{.ts,.js}')]
+          migrations: [
+            path.join(__dirname, '/src/database/migrations/**/*{.ts,.js}'),
+          ],
         }),
-        TypeOrmModule.forFeature([Film, Schedule])
-      ]
+        TypeOrmModule.forFeature([Film, Schedule]),
+      ];
 
       databaseProvider = {
         provide: 'FilmsRepository',
-        useClass: FilmsPgRepository
-      }
+        useClass: FilmsPgRepository,
+      };
     }
 
     if (configProvider.useValue.database.driver === 'mongodb') {
-
-      const databaseUrl = `${databaseParams.host}:${databaseParams.port}/${databaseParams.name}`
+      const databaseUrl = `${databaseParams.host}:${databaseParams.port}/${databaseParams.name}`;
 
       databaseModules = [
         MongooseModule.forRoot(databaseUrl),
-        MongooseModule.forFeature([{ name: 'Film', schema: FilmSchema }])
-      ]
-      
+        MongooseModule.forFeature([{ name: 'Film', schema: FilmSchema }]),
+      ];
+
       databaseProvider = {
         provide: 'FilmsRepository',
-        useClass: FilmsMongoRepository
-      }
+        useClass: FilmsMongoRepository,
+      };
     }
 
     return {
@@ -71,10 +69,10 @@ export class AppModule {
         ServeStaticModule.forRoot({
           rootPath: path.join(__dirname, '..', '..', 'public'),
         }),
-        ...databaseModules
+        ...databaseModules,
       ],
       controllers: [FilmsController, OrderController],
       providers: [configProvider, FilmsService, OrderService, databaseProvider],
-    }
+    };
   }
 }

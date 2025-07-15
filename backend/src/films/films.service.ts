@@ -23,7 +23,7 @@ export class FilmsService {
     const schedule = await this.filmsRepository.findScheduleById(id);
 
     if (!schedule || schedule.length === 0) {
-      throw new NotFoundException('No film with this id');
+      throw new NotFoundException('No sessions or film with this id');
     }
     return {
       total: schedule.length,

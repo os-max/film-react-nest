@@ -2,7 +2,7 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import 'dotenv/config';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
-import "reflect-metadata";
+import 'reflect-metadata';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule.forRoot());
