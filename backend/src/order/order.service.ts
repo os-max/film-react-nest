@@ -1,21 +1,22 @@
 import {
   BadRequestException,
   ConflictException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { FilmsRepository } from 'src/repository/films.repository';
 import { createOrderDTO } from './dto/order.dto';
 
 @Injectable()
 export class OrderService {
-  constructor(private filmsRepository: FilmsRepository) {}
+  constructor(@Inject('FilmsRepository') private filmsRepository) {}
 
   async createOrder(order: createOrderDTO) {
     for (const ticket of order.tickets) {
-      const { schedule } = await this.filmsRepository.findScheduleById(
+      const schedule = await this.filmsRepository.findScheduleById(
         ticket.film,
       );
+
       const session = schedule.find((session) => session.id === ticket.session);
 
       if (!session) {

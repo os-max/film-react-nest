@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { IFilm } from 'src/schemas/films.schema';
 
 @Injectable()
-export class FilmsRepository {
+export class FilmsMongoRepository {
   constructor(@InjectModel('Film') private Film: Model<IFilm>) {}
 
   findAll() {
@@ -12,11 +12,14 @@ export class FilmsRepository {
   }
 
   findAllNoSchedule() {
-    return this.Film.find({}, { _id: 0, schedule: 0 }).lean().exec();
+    return this.Film.find({}, { _id: 0, schedule: 0 }).lean().exec()
   }
 
-  findScheduleById(id: string) {
-    return this.Film.findOne({ id }).select('schedule').lean().exec();
+  async findScheduleById(id: string) {
+    const schedule = await this.Film.findOne({ id }).select('schedule').lean().exec();
+
+    if (schedule)
+      return schedule.schedule
   }
 
   async reserveSeats(filmId: string, sessionId: string, seat: string) {
