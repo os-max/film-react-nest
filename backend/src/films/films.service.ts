@@ -1,12 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { FilmsRepository } from 'src/repository/films.repository';
+
 import { getFilmDTO } from './dto/films.dto';
 import { getScheduleDTO } from './dto/schedule.dto';
 
 @Injectable()
 export class FilmsService {
-  constructor(private filmsRepository: FilmsRepository) {}
+  constructor(@Inject('FilmsRepository') private filmsRepository) {}
 
   async findAllNoSchedule() {
     const films = await this.filmsRepository.findAllNoSchedule();
@@ -20,10 +20,10 @@ export class FilmsService {
   }
 
   async getSchedule(id: string) {
-    const { schedule } = await this.filmsRepository.findScheduleById(id);
+    const schedule = await this.filmsRepository.findScheduleById(id);
 
-    if (!schedule) {
-      throw new NotFoundException('No film with this id');
+    if (!schedule || schedule.length === 0) {
+      throw new NotFoundException('No sessions or film with this id');
     }
     return {
       total: schedule.length,
