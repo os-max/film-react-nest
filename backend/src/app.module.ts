@@ -22,6 +22,9 @@ export class AppModule {
     let databaseProvider, databaseModules;
 
     const databaseParams = configProvider.useValue.database;
+
+    console.log('database params: ')
+    console.log(databaseParams);
     if (configProvider.useValue.database.driver === 'postgres') {
       databaseModules = [
         TypeOrmModule.forRoot({
@@ -35,6 +38,7 @@ export class AppModule {
           migrations: [
             path.join(__dirname, '/src/database/migrations/**/*{.ts,.js}'),
           ],
+          synchronize: false
         }),
         TypeOrmModule.forFeature([Film, Schedule]),
       ];
