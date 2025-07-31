@@ -23,8 +23,6 @@ export class AppModule {
 
     const databaseParams = configProvider.useValue.database;
 
-    console.log('database params: ')
-    console.log(databaseParams);
     if (configProvider.useValue.database.driver === 'postgres') {
       databaseModules = [
         TypeOrmModule.forRoot({

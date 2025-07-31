@@ -1,16 +1,19 @@
 version: "3.9"
 services:
-  postgres_1:
+
+  database:
     image: "postgres"
     expose:
       - 5432
     ports:
       - "5432:5432"
     volumes:
+      - postgres_data:/data/db
       - ./backend/test/initSQL.sql:/docker-entrypoint-initdb.d/initSQL.sql
     environment:
       POSTGRES_USER: "student"
       POSTGRES_PASSWORD: "student"
+
   backend:
     build: "./backend"
     ports:
@@ -18,4 +21,23 @@ services:
     env_file: 
     - "backend/.env"
     depends_on:
-      - postgres_1
+      - database
+
+  frontend:
+    build: "./frontend"
+    env_file: "frontend/.env"
+    volumes:
+      - frontend_dist:/usr/src/app-front
+
+  nginx:
+    image: "nginx"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - frontend_dist:/var/www/frontend
+
+volumes:
+  frontend_dist:
+  postgres_data:
