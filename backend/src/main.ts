@@ -5,6 +5,7 @@ import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import 'reflect-metadata';
 import { JsonLogger } from './loggers/json.logger';
 import { TSKVLogger } from './loggers/tskv.logger';
+import { DevLogger } from './loggers/dev.logger';
 
 const whitelist = [
   'http://localhost',
@@ -39,6 +40,7 @@ async function bootstrap() {
   });
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.setGlobalPrefix('afisha');
+  app.useLogger(new DevLogger());
   app.useLogger(new JsonLogger());
   app.useLogger(new TSKVLogger());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));

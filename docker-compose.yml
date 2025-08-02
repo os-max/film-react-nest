@@ -3,6 +3,8 @@ services:
 
   database:
     image: "postgres"
+    env_file:
+      - "./database/.env"
     expose:
       - 5432
     ports:
@@ -10,9 +12,6 @@ services:
     volumes:
       - postgres_data:/data/db
       - ./backend/test/initSQL.sql:/docker-entrypoint-initdb.d/initSQL.sql
-    environment:
-      POSTGRES_USER: "student"
-      POSTGRES_PASSWORD: "student"
     restart: unless-stopped
 
   backend:
