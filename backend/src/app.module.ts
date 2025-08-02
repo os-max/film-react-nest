@@ -36,7 +36,7 @@ export class AppModule {
           migrations: [
             path.join(__dirname, '/src/database/migrations/**/*{.ts,.js}'),
           ],
-          synchronize: false
+          synchronize: false,
         }),
         TypeOrmModule.forFeature([Film, Schedule]),
       ];

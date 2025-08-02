@@ -2,10 +2,9 @@ import { Injectable, LoggerService } from '@nestjs/common';
 
 @Injectable()
 export class TSKVLogger implements LoggerService {
-
   formatMessage(level: string, message: any, ...optionalParams: any[]) {
     JSON.stringify({ level, message, optionalParams });
-    return `level=${level}\tmessage=${message}\toptionalParams=${optionalParams}\n`
+    return `level=${level}\tmessage=${message}\toptionalParams=${optionalParams}\n`;
   }
 
   log(message: any, ...optionalParams: any[]) {
@@ -19,4 +18,4 @@ export class TSKVLogger implements LoggerService {
   error(message: any, ...optionalParams: any[]) {
     console.log(this.formatMessage('error', message, optionalParams));
   }
-} 
+}

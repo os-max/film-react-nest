@@ -10,16 +10,16 @@ describe('FilmsPgRepository', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        FilmsPgRepository, 
-      {
-        provide: getRepositoryToken(Film),
-        useValue: {}
-      },
-      {
-        provide: getRepositoryToken(Schedule),
-        useValue: {}
-      }
-    ]
+        FilmsPgRepository,
+        {
+          provide: getRepositoryToken(Film),
+          useValue: {},
+        },
+        {
+          provide: getRepositoryToken(Schedule),
+          useValue: {},
+        },
+      ],
     }).compile();
 
     provider = module.get<FilmsPgRepository>(FilmsPgRepository);

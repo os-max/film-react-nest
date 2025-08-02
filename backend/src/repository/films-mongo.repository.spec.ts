@@ -1,7 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FilmsMongoRepository } from './films-mongo.repository';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { FilmSchema } from '../schemas/films.schema';
 import { getModelToken } from '@nestjs/mongoose';
 
 describe('FilmsRepository', () => {
@@ -13,8 +11,8 @@ describe('FilmsRepository', () => {
         FilmsMongoRepository,
         {
           provide: getModelToken('Film'),
-          useValue: {}
-        }
+          useValue: {},
+        },
       ],
     }).compile();
 

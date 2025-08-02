@@ -1,49 +1,55 @@
-import { JsonLogger } from "./json.logger";
+import { JsonLogger } from './json.logger';
 
-JsonLogger
+JsonLogger;
 
 describe('tests for JSON logger', () => {
+  let logger;
 
-    let logger
+  beforeEach(() => {
+    logger = new JsonLogger();
+  });
 
-    beforeEach(() => {
-        logger = new JsonLogger();
-    })
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-    afterEach(() => {
-        jest.clearAllMocks();
-    })
+  it('should return JSON formated message', () => {
+    const formatedMessage = logger.formatMessage('log', 'test message', {
+      testParam: 'test param',
+    });
 
-    it('should return JSON formated message', () => {
-        const formatedMessage = logger.formatMessage('log', 'test message', {testParam: 'test param'});
+    expect(formatedMessage).toEqual(
+      `{"level":"log","message":"test message","optionalParams":[{"testParam":"test param"}]}`,
+    );
+  });
 
-        expect(formatedMessage).toEqual(`{"level":"log","message":"test message","optionalParams":[{"testParam":"test param"}]}`)
-    })
+  it('should log message', () => {
+    jest.spyOn(console, 'log');
 
-    it('should log message', () => {
+    logger.log('test message', { testParam: 'test param' });
 
-        jest.spyOn(console, 'log');
+    expect(console.log).toHaveBeenCalledWith(
+      `{"level":"log","message":"test message","optionalParams":[{"testParam":"test param"}]}`,
+    );
+  });
 
-        logger.log('test message', {testParam: 'test param'});
+  it('should log warn level message', () => {
+    jest.spyOn(console, 'log');
 
-        expect(console.log).toHaveBeenCalledWith(`{"level":"log","message":"test message","optionalParams":[{"testParam":"test param"}]}`)
-    })
+    logger.warn('test message', { testParam: 'test param' });
 
-    it('should log warn level message', () => {
+    expect(console.log).toHaveBeenCalledWith(
+      `{"level":"warn","message":"test message","optionalParams":[{"testParam":"test param"}]}`,
+    );
+  });
 
-        jest.spyOn(console, 'log');
+  it('should log error level message', () => {
+    jest.spyOn(console, 'log');
 
-        logger.warn('test message', {testParam: 'test param'});
+    logger.error('test message', { testParam: 'test param' });
 
-        expect(console.log).toHaveBeenCalledWith(`{"level":"warn","message":"test message","optionalParams":[{"testParam":"test param"}]}`)
-    })
-
-    it('should log error level message', () => {
-
-        jest.spyOn(console, 'log');
-
-        logger.error('test message', {testParam: 'test param'});
-
-        expect(console.log).toHaveBeenCalledWith(`{"level":"error","message":"test message","optionalParams":[{"testParam":"test param"}]}`)
-    })
-})
+    expect(console.log).toHaveBeenCalledWith(
+      `{"level":"error","message":"test message","optionalParams":[{"testParam":"test param"}]}`,
+    );
+  });
+});
