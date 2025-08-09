@@ -1,5 +1,13 @@
 # FILM!
 
+Фронтэнд доступен по адресу: https://osmaxfilm.nomorepartiessbs.ru/
+Бекэнд по адресу: https://api.osmaxfilm.nomorepartiessbs.ru/
+
+
+Локально работает сборка с помощью docker-compose up
+Адрес локального фронтэнда: http://localhost/
+Адрес локального бекэнда: http://localhost:3000/
+
 ## Установка
 
 ### MongoDB
@@ -30,7 +38,3 @@ MongoDB должна быть установлена и запущена.
 `npm start:debug`
 
 Для проверки отправьте тестовый запрос с помощью Postman или `curl`.
-
-
-
-
